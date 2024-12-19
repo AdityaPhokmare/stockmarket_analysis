@@ -13,6 +13,7 @@ col1, col2, col3 = st.columns(3)
 # stock_symbols = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "NVDA","RY"]
 time_duration = ["1W","1M","6M", "1Y", "3Y", "5Y", "ALL"]
 stock_info_data = pd.read_csv("https://github.com/AdityaPhokmare/stockmarket_analysis/blob/main/Stock_Info.csv?raw=true", index_col=0)
+stock_info_data.set_index("Name", inplace = True)
 stock_info_data["Country"].fillna("Other", inplace = True)
 stock_names_dict = stock_info_data["Symbol"].to_dict()
 with col1:
