@@ -7,30 +7,37 @@ import yfinance as yf
 import streamlit as st
 import Charts as ch
 from dateutil.relativedelta import relativedelta
-# api_key = "4K764NAX8K529PGF"
-# ts = TimeSeries(key=api_key, output_format='pandas')
-ticker_symbol = "AAPL"
+
 col1, col2, col3 = st.columns(3)
 # Fetch live price (latest close price for the day)
-stock_symbols = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "NVDA"]
+# stock_symbols = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "NVDA","RY"]
 time_duration = ["1W","1M","6M", "1Y", "3Y", "5Y", "ALL"]
+stock_info_data = pd.read_csv("./stockmarket_analysis/Stock_Info.csv", index_col="Name")
+stock_info_data["Country"].fillna("Other", inplace = True)
+stock_names_dict = stock_info_data["Symbol"].to_dict()
 with col1:
-    stock_name = st.selectbox("Stock Name :heavy_dollar_sign:",stock_symbols)
-    stock = yf.Ticker(stock_name)
+    
+    country_name = st.selectbox("Select Country Name :",stock_info_data["Country"].unique())
+
+    available_stocks = stock_info_data[stock_info_data["Country"] == country_name]
+    stock_name = st.selectbox("Stock Name :heavy_dollar_sign:",available_stocks.index.to_list())
+    ticker_name = stock_names_dict[stock_name]
+    
+    stock = yf.Ticker(ticker_name)
     stock_data = stock.history(period="max")
 
     # stock_data, meta_data = ts.get_daily(symbol=stock_name, outputsize='full')
     stock_data.columns = [col.upper() for col in stock_data.columns]
     stock_data.index = pd.to_datetime(stock_data.index)
     stock_data.sort_index(inplace = True)
-    chart_switch = st.toggle("Switch Charts :chart:")
     
 
 with col2:
+    chart_switch = st.toggle("Switch Charts :chart:")
     customize_date = st.toggle("Customize Date :chart:")
+    duration = st.selectbox("Duration :hourglass_flowing_sand:",time_duration, disabled=customize_date)
 
 with col3:
-    duration = st.selectbox("Duration :hourglass_flowing_sand:",time_duration, disabled=customize_date)
     if customize_date:
         duration = ""
     start_date,end_date = str(st.date_input("Start Date", disabled = not customize_date)), str(st.date_input("End Date", disabled = not customize_date))
