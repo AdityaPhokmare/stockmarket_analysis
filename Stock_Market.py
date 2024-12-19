@@ -12,7 +12,7 @@ col1, col2, col3 = st.columns(3)
 # Fetch live price (latest close price for the day)
 # stock_symbols = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "NVDA","RY"]
 time_duration = ["1W","1M","6M", "1Y", "3Y", "5Y", "ALL"]
-stock_info_data = pd.read_csv("./stockmarket_analysis/Stock_Info.csv", index_col="Name")
+stock_info_data = pd.read_csv("https://github.com/AdityaPhokmare/stockmarket_analysis/blob/main/Stock_Info.csv", index_col="Name")
 stock_info_data["Country"].fillna("Other", inplace = True)
 stock_names_dict = stock_info_data["Symbol"].to_dict()
 with col1:
