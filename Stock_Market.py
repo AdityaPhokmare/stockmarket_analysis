@@ -8,13 +8,13 @@ import streamlit as st
 import Charts as ch
 from dateutil.relativedelta import relativedelta
 
-col1, col2, col3 = st.columns(3)
-# Fetch live price (latest close price for the day)
-# stock_symbols = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "NVDA","RY"]
+col1, col2, col3 = st.columns(3) # Created 3 seperate sections for different options.
+
 time_duration = ["1W","1M","6M", "1Y", "3Y", "5Y", "ALL"]
 stock_info_data = pd.read_csv("https://github.com/AdityaPhokmare/stockmarket_analysis/blob/main/Stock_Info.csv?raw=true", index_col="Name")
-stock_info_data["Country"].fillna("Other", inplace = True)
+stock_info_data["Country"].fillna("Other", inplace = True) # Data Was Having Empty Spaces, so replaced them with Other.
 stock_names_dict = stock_info_data["Symbol"].to_dict()
+
 with col1:
     
     country_name = st.selectbox("Select Country Name :",stock_info_data["Country"].unique())
@@ -23,6 +23,7 @@ with col1:
     stock_name = st.selectbox("Stock Name :heavy_dollar_sign:",available_stocks.index.to_list())
     ticker_name = stock_names_dict[stock_name]
     
+    # Fetch live price (latest close price for the day)
     stock = yf.Ticker(ticker_name)
     stock_data = stock.history(period="max")
 
