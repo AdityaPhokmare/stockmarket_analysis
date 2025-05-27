@@ -34,10 +34,9 @@ def candlestick_chart(data, duration, stock_name, start_date = None, end_date = 
     #     line=dict(color='orange', width=1)
     # ))
     fig.update_layout(xaxis_rangeslider_visible=False)
-    fig.update_layout(title = f"{stock_name} Stock Price (Daily Candlestick Chart)")
+    fig.update_layout(title = f"{stock_name} Price (Daily Candlestick Chart)")
     fig.update_layout(xaxis=dict(title="<b>Date",showline=True,linewidth=2,linecolor="black"),
                       yaxis=dict(title="<b>Stock Price",showline=True,linewidth=2,linecolor="black"))
-
     fig.update_layout(width = 800, height = 400)
     return fig
 
@@ -49,7 +48,7 @@ def trend_chart(data,duration,stock_name,start_date=None,end_date=None):
     fig.add_trace(go.Scatter(x = selected_data["CLOSE"].index, y = selected_data["CLOSE"], mode = "lines + markers", marker=dict(size = 4), line=dict(color = "green")))
     fig.update_layout(plot_bgcolor='rgba(0, 0, 0, 0)')
     #fig.update_layout(paper_bgcolor='rgba(0, 0, 0, 0)')
-    fig.update_layout(title = f"{stock_name} Stock Price (Daily Candlestick Chart)")
+    fig.update_layout(title = f"{stock_name} Price (Daily Trend Chart)")
 
     fig.update_layout(xaxis=dict(title="<b>Date",showline=True,linewidth=2,linecolor="black"),
                       yaxis=dict(title="<b>Stock Price",showline=True,linewidth=2,linecolor="black"))
@@ -76,4 +75,3 @@ def custom_dates(data, duration, start_date,end_date):
         selected_data = data
 
     return selected_data
-
